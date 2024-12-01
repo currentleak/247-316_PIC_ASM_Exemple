@@ -39,7 +39,7 @@
 ;**********************************************************************
 
      LIST      p=16f88         ; Liste des directives du processeur.
-     #include <p16F88.inc>     ; Définition des registres spécifiques au CPU.
+     #include <p16F88.inc>     ; DÃ©finition des registres spÃ©cifiques au CPU.
 
      errorlevel  -302          ; Retrait du message d'erreur 302.
 
@@ -87,9 +87,9 @@ pclath_temp   EQU     0x73	  ; variable used for context saving
   vValL
   vValA
   
-  vDelai1ms                    ; Variable pour le délai de 1ms.
-  vDelai5ms                    ; Variable pour le délai de 5ms.
-  vDelai1s                     ; Variable pour le délai de 1s.
+  vDelai1ms                    ; Variable pour le dÃ©lai de 1ms.
+  vDelai5ms                    ; Variable pour le dÃ©lai de 5ms.
+  vDelai1s                     ; Variable pour le dÃ©lai de 1s.
   
   endc
   
@@ -112,9 +112,9 @@ main
     
 LoopForever
     
-;    call LireAxeX
-;    movf    adc_result_high, W
-;    call    Tx232         ; Send high byte
+    call LireAxeX
+    movf    adc_result_high, W
+    call    Tx232         ; Send high byte
 ;    movf    adc_result_low, W
 ;    call    Tx232         ; Send low byte
 
@@ -140,7 +140,7 @@ LireAxeY
 
     BANK1
     movlw   b'01111101'      ; set RA1 et RA7 en sortie  
-    movwf   TRISA	     ; RA0 et RA6 en entrée
+    movwf   TRISA	     ; RA0 et RA6 en entrÃ©e
     BANK0
     bsf	    PORTA,1	    ; mettre 1 sur RA1 
     bcf	    PORTA,7	    ; et mettre 0 sur RA7
@@ -175,7 +175,7 @@ LireAxeX
 
     BANK1
     movlw   b'10111110'      ; set RA0 et RA6 en sortie  
-    movwf   TRISA	     ; RA1 et RA7 en entrée
+    movwf   TRISA	     ; RA1 et RA7 en entrÃ©e
     BANK0
     bsf	    PORTA,0	    ; mettre 1 sur RA0 
     bcf	    PORTA,6	    ; et mettre 0 sur RA6
@@ -241,7 +241,7 @@ Rx232
     goto    Rx232           ;le port serie.
 Rx232Go                     ;Si recu sur le port serie
     movfw   RCREG        
-    ;movwf   vReceive        ;Met le caractère reçu dans vReceive
+    ;movwf   vReceive        ;Met le caractÃ¨re reÃ§u dans vReceive
     return
     
 ;*************************************Tx232************************************
@@ -253,15 +253,15 @@ Tx232
     
 ;******************************* InitPic **************************************
 InitPic
-     bcf     STATUS, RP1       ; Pour s'assurer d'être dans les bank 0 et 1 
+     bcf     STATUS, RP1       ; Pour s'assurer d'Ãªtre dans les bank 0 et 1 
      BANK1                     ; Select Bank1        
-     bcf     INTCON,GIE        ; Désactive les interruptions        
-     clrf    ANSEL             ; Désactive les convertisseurs reg ANSEL 0x9B        
+     bcf     INTCON,GIE        ; DÃ©sactive les interruptions        
+     clrf    ANSEL             ; DÃ©sactive les convertisseurs reg ANSEL 0x9B        
      movlw   b'01111000'       ; osc internal 8 Mhz
      movwf   OSCCON
      movlw   b'11111111'       ; set port all inputs
      movwf   TRISA             ; PortA en entree         
-     movlw   b'11100111'       ; Bits en entrées sauf,
+     movlw   b'11100111'       ; Bits en entrÃ©es sauf,
      movwf   TRISB             ; RB3 (Led1), RB4 (Led2) en sortie. 
 
      ; config ADC
@@ -282,7 +282,7 @@ Delai5us
      
 ;****************************** Delai1ms **************************************
 Delai1ms                       ; Delai pour attendre entre la transmission
-     movlw   .154;             ; Nombre de fois que l'on veut exécuter  
+     movlw   .154;             ; Nombre de fois que l'on veut exÃ©cuter  
      movwf   vDelai1ms         ; la routine Delai5us.
 LongDelai                      ;
      call    Delai5us          ;      
