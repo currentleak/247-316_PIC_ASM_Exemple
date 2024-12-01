@@ -1,43 +1,19 @@
 ;   This file is a basic code template for assembly code generation   *
 ;   on the PICmicro PIC16F88. This file contains the basic code       *
 ;   building blocks to build upon.                                    *
-;                                                                     *
-;   If interrupts are not used all code presented between the ORG     *
-;   0x004 directive and the label main can be removed. In addition    *
-;   the variable assignments for 'w_temp' and 'status_temp' can       *
-;   be removed.                                                       *
-;                                                                     *
-;   Refer to the MPASM User's Guide for additional information on     *
-;   features of the assembler (Document DS33014).                     *
-;                                                                     *
-;   Refer to the respective PICmicro data sheet for additional        *
-;   information on the instruction set.                               *
-;                                                                     *
 ;**********************************************************************
-;                                                                     *
 ;    Filename:	    xxx.asm                                           *
 ;    Date:                                                            *
 ;    File Version:                                                    *
-;                                                                     *
 ;    Author:                                                          *
 ;    Company:                                                         *
-;                                                                     *
-;                                                                     *
 ;**********************************************************************
-;                                                                     *
 ;    Files required:                                                  *
 ;                                                                     *
-;                                                                     *
-;                                                                     *
 ;**********************************************************************
-;                                                                     *
 ;    Notes:                                                           *
 ;                                                                     *
-;                                                                     *
-;                                                                     *
-;                                                                     *
 ;**********************************************************************
-
      LIST      p=16f88         ; Liste des directives du processeur.
      #include <p16F88.inc>     ; Définition des registres spécifiques au CPU.
 
@@ -49,7 +25,6 @@
 ; '__CONFIG' directive is used to embed configuration word within .asm file.
 ; The lables following the directive are located in the respective .inc file.
 ; See data sheet for additional information on configuration word settings.
-
 ;******************************************************************************
 ; Constants
 ;#define _XTAL_FREQ 4000000     ; 4 MHz clock frequency
@@ -90,15 +65,12 @@ pclath_temp   EQU     0x73	  ; variable used for context saving
   vDelai1ms                    ; Variable pour le délai de 1ms.
   vDelai5ms                    ; Variable pour le délai de 5ms.
   vDelai1s                     ; Variable pour le délai de 1s.
-  
-  endc
-  
 
+  endc
 ;*************************VECTEUR DE RESET*************************************
      ORG     0x000             ; Processor reset vector
      clrf    PCLATH            ; Page 0 (a cause du BootLoader)
      goto    main              ; 
-        
 
 ;***********************VECTEUR D'INTERRUPTION*********************************    
      ORG     0x004             ; Interrupt vector location
@@ -107,8 +79,6 @@ pclath_temp   EQU     0x73	  ; variable used for context saving
 main
      call InitPic
      call InitRS232
-     
-     ;clrf    channel_index     ; Start with AN0
     
 LoopForever
     
@@ -123,12 +93,9 @@ LoopForever
     call    Tx232         ; Send high byte
 ;    movf    adc_result_low, W
 ;    call    Tx232         ; Send low byte
-    
-;     call Delai1s
-     call Delai5ms
-     
-     goto LoopForever	; Repeat forever
 
+     call Delai5ms
+     goto LoopForever	; Repeat forever
 
 ;******************************************************************************
 ;******************************* ROUTINES *************************************
@@ -137,27 +104,21 @@ LoopForever
 LireAxeY
     movlw   b'10000001'       ; Fosc/32, select channel 0, ADON
     movwf   ADCON0
-
     BANK1
     movlw   b'01111101'      ; set RA1 et RA7 en sortie  
     movwf   TRISA	     ; RA0 et RA6 en entrée
     BANK0
     bsf	    PORTA,1	    ; mettre 1 sur RA1 
     bcf	    PORTA,7	    ; et mettre 0 sur RA7
-    
     BANK1
     movlw  b'00000001'	    ; mettre RA0 en mode analogique
     movf   ANSEL, W
     BANK0
-    
     call Delai100ms
-    
     bsf     ADCON0, GO_DONE   ; Start ADC conversion
-
 Wait_ADC_Y
     btfsc   ADCON0, GO_DONE   ; Wait for conversion complete
     goto    Wait_ADC_Y
-
     ; Read ADC result
     movf    ADRESH, W         ; Read high byte
     movwf   adc_result_high
@@ -167,32 +128,25 @@ Wait_ADC_Y
     BANK0
     return
     
-    
 ; ****************************** LIRE AXE X *******************************
 LireAxeX
     movlw   b'10001001'       ; Fosc/32, select channel 1, ADON
     movwf   ADCON0
-
     BANK1
     movlw   b'10111110'      ; set RA0 et RA6 en sortie  
     movwf   TRISA	     ; RA1 et RA7 en entrée
     BANK0
     bsf	    PORTA,0	    ; mettre 1 sur RA0 
     bcf	    PORTA,6	    ; et mettre 0 sur RA6
-    
     BANK1
     movlw  b'00000010'	    ; mettre RA1 en mode analogique
     movf   ANSEL, W
     BANK0
-    
     call Delai5ms
-    
     bsf     ADCON0, GO_DONE   ; Start ADC conversion
-
 Wait_ADC_X
     btfsc   ADCON0, GO_DONE   ; Wait for conversion complete
     goto    Wait_ADC_X
-
     ; Read ADC result
     movf    ADRESH, W         ; Read high byte
     movwf   adc_result_high
@@ -330,7 +284,6 @@ Interruption
 
 ; isr code can go here or be located as a call subroutine elsewhere
 
-
 ;    movf      pclath_temp,w  ; retrieve copy of PCLATH register
 ;    movwf     PCLATH         ; restore pre-isr PCLATH register contents
 ;    movf      status_temp,w  ; retrieve copy of STATUS register
@@ -338,10 +291,7 @@ Interruption
 ;    swapf     w_temp,f
 ;    swapf     w_temp,w       ; restore pre-isr W register contents
     retfie                   ; return from interrupt
-
 ; fin de la routine Interruption-----------------------------------------------
-
-
 
 ; initialize eeprom locations
 
