@@ -12,7 +12,8 @@
 ;                                                                     *
 ;**********************************************************************
 ;    Notes:                                                           *
-;                                                                     *
+;    X+ --> RA6, X- --> RA0                                           *
+;    Y+ --> RA1, Y- --> RA7                                           *
 ;**********************************************************************
      LIST      p=16f88         ; Liste des directives du processeur.
      #include <p16F88.inc>     ; Définition des registres spécifiques au CPU.
@@ -79,9 +80,7 @@ pclath_temp   EQU     0x73	  ; variable used for context saving
 main
      call InitPic
      call InitRS232
-    
 LoopForever
-    
     call LireAxeX
     movf    adc_result_high, W
     call    Tx232         ; Send high byte
