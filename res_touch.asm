@@ -135,7 +135,7 @@ LoopForever
 
 ; ****************************** LIRE AXE Y *******************************
 LireAxeY
-    movlw   b'10000001'       ; Fosc/32, select channel 1, ADON
+    movlw   b'10000001'       ; Fosc/32, select channel 0, ADON
     movwf   ADCON0
 
     BANK1
