@@ -253,7 +253,7 @@ LongDelai5ms
      goto    LongDelai5ms
      return
 
-;******************************* Delai1s **************************************
+;******************************* Delai100ms **************************************
 Delai100ms                        ; Delai de 100msec.
      movlw   .20;               
      movwf   vDelai1s
