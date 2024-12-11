@@ -111,7 +111,7 @@ LireAxeY
     bcf	    PORTA,7	    ; et mettre 0 sur RA7
     BANK1
     movlw  b'00000001'	    ; mettre RA0 en mode analogique
-    movf   ANSEL, W
+    movwf   ANSEL
     BANK0
     call Delai100ms
     bsf     ADCON0, GO_DONE   ; Start ADC conversion
@@ -139,7 +139,7 @@ LireAxeX
     bcf	    PORTA,6	    ; et mettre 0 sur RA6
     BANK1
     movlw  b'00000010'	    ; mettre RA1 en mode analogique
-    movf   ANSEL, W
+    movwf   ANSEL
     BANK0
     call Delai5ms
     bsf     ADCON0, GO_DONE   ; Start ADC conversion
